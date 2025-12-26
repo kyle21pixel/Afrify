@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: afrify-postgres
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: afrify
+      POSTGRES_PASSWORD: afrify_dev_password
+      POSTGRES_DB: afrify
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - afrify-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: afrify-redis
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+    networks:
+      - afrify-network
+
+  minio:
+    image: minio/minio:latest
+    container_name: afrify-minio
+    restart: unless-stopped
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    environment:
+      MINIO_ROOT_USER: afrify
+      MINIO_ROOT_PASSWORD: afrify_minio_password
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - afrify-network
+
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:
+
+networks:
+  afrify-network:
+    driver: bridge

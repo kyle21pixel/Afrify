@@ -1,0 +1,47 @@
+{
+  "name": "afrify",
+  "version": "1.0.0",
+  "description": "Multi-tenant e-commerce SaaS platform optimized for African markets",
+  "private": true,
+  "workspaces": [
+    "packages/backend",
+    "packages/merchant-dashboard",
+    "packages/customer-storefront",
+    "packages/admin-panel",
+    "packages/mobile-app",
+    "packages/shared"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:merchant\" \"npm run dev:storefront\" \"npm run dev:admin\"",
+    "dev:backend": "cd packages/backend && npm run start:dev",
+    "dev:merchant": "cd packages/merchant-dashboard && npm run dev",
+    "dev:storefront": "cd packages/customer-storefront && npm run dev",
+    "dev:admin": "cd packages/admin-panel && npm run dev",
+    "build": "npm run build:backend && npm run build:merchant && npm run build:storefront && npm run build:admin",
+    "build:backend": "cd packages/backend && npm run build",
+    "build:merchant": "cd packages/merchant-dashboard && npm run build",
+    "build:storefront": "cd packages/customer-storefront && npm run build",
+    "build:admin": "cd packages/admin-panel && npm run build",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "db:migrate": "cd packages/backend && npm run migration:run",
+    "db:seed": "cd packages/backend && npm run seed"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^3.2.4",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
